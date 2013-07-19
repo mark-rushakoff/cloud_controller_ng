@@ -54,6 +54,14 @@ GIT
   specs:
     vcap-concurrency (0.1.0)
 
+GIT
+  remote: https://github.com/mark-rushakoff/cf-interface.git
+  revision: 590519668908a82caf77cd0e88e4275932f38198
+  ref: 5905196
+  specs:
+    cf-interface (0.0.1)
+      cf-message-bus
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -238,6 +246,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 3.0)
   bcrypt-ruby
+  cf-interface!
   cf-message-bus!
   cf-uaa-lib (~> 1.3.7)!
   ci_reporter

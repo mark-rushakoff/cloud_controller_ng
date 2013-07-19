@@ -1,5 +1,8 @@
 # Copyright (c) 2009-2012 VMware, Inc.
 
+require "cf/interface"
+require "cf/interface/droplet_updated_message"
+
 module VCAP::CloudController
   module HealthManagerClient
     class << self
@@ -8,6 +11,7 @@ module VCAP::CloudController
       def configure(config, message_bus)
         @config = config
         @message_bus = message_bus
+        @interface = CF::Interface.new(message_bus)
       end
 
       def find_crashes(app)
@@ -62,7 +66,8 @@ module VCAP::CloudController
       end
 
       def notify_app_updated(guid)
-        @message_bus.publish("droplet.updated", :droplet => guid, :cc_partition => @config[:cc_partition])
+        message = CF::Interface::DropletUpdatedMessage.new(guid, @config[:cc_partition])
+        message.broadcast(@interface)
       end
 
       private

@@ -91,7 +91,9 @@ module VCAP::CloudController
     describe 'notify_app_updated' do
       let(:configuration) { { :cc_partition => 'foo' } }
       it 'should publish droplet.updated' do
-        message_bus.should_receive(:publish).with("droplet.updated", :droplet => app.guid, :cc_partition => 'foo')
+        message = double
+        CF::Interface::DropletUpdatedMessage.should_receive(:new).with(app.guid, "foo").and_return(message)
+        message.should_receive(:broadcast).with(instance_of(CF::Interface::Interface))
         HealthManagerClient.notify_app_updated(app.guid)
       end
     end
